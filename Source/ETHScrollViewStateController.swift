@@ -54,7 +54,7 @@ extension ETHScrollViewStateControllerDataSource {
 }
 
 protocol ETHScrollViewStateControllerDelegate: NSObjectProtocol {
-  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIView)
+  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView)
   func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool
   func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void)
   func stateControllerDidFinishLoading(controller: ETHScrollViewStateController)
@@ -66,7 +66,7 @@ extension ETHScrollViewStateControllerDelegate {
     return true
   }
 
-  func scrollViewStateControllerWillStartLoading(controller: ETHScrollViewStateController, loadView: UIView) {
+  func scrollViewStateControllerWillStartLoading(controller: ETHScrollViewStateController, loadView: UIActivityIndicatorView) {
     // default imlpementation
   }
   
@@ -84,7 +84,7 @@ class ETHScrollViewStateController: NSObject {
   weak var dataSource: ETHScrollViewStateControllerDataSource!
   weak var delegate: ETHScrollViewStateControllerDelegate!
   
-  private var scrollView: UIScrollView?
+  private var scrollView: UIScrollView!
   private var state: ETHScrollViewStateControllerState = .Normal
   private var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
   
@@ -115,6 +115,35 @@ class ETHScrollViewStateController: NSObject {
 
       } else {
         newOffset = (change?[NSKeyValueChangeNewKey]?.CGPointValue?.x)!
+      }
+      
+      handleLoadingCycle(newOffset)
+    }
+  }
+  
+  private func handleLoadingCycle(offset: CGFloat) {
+    if (dataSource.stateControllerShouldInitiateLoading(offset)) {
+      self.delegate.scrollViewStateControllerWillStartLoading(self, loadView: self.loadingView)
+    }
+    
+    if scrollView.dragging {
+      switch self.state {
+      case .Normal:
+        if dataSource.stateControllerDidReleaseToStartLoading(offset) {
+          self.state = .Ready
+        }
+        
+      case .Ready:
+        if dataSource.stateControllerDidReleaseToCancelLoading(offset) {
+          self.state = .Normal
+        }
+        
+      default: break
+      }
+      
+    } else if scrollView.decelerating {
+      if self.state == .Ready {
+        // start loading
       }
     }
   }
