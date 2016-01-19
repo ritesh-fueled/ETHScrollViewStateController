@@ -66,11 +66,11 @@ extension ETHScrollViewStateControllerDelegate {
     return true
   }
 
-  func scrollViewStateControllerWillStartLoading(controller: ETHScrollViewStateController, loadView: UIActivityIndicatorView) {
+  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadView: UIActivityIndicatorView) {
     // default imlpementation
   }
   
-  func scrollViewStateControllerDidFinishLoading(controller: ETHScrollViewStateController) {
+  func stateControllerDidFinishLoading(controller: ETHScrollViewStateController) {
     // default imlpementation
   }
 }
@@ -123,7 +123,7 @@ class ETHScrollViewStateController: NSObject {
   
   private func handleLoadingCycle(offset: CGFloat) {
     if (dataSource.stateControllerShouldInitiateLoading(offset)) {
-      self.delegate.scrollViewStateControllerWillStartLoading(self, loadView: self.loadingView)
+      self.delegate.stateControllerWillStartLoading(self, loadView: self.loadingView)
     }
     
     if scrollView.dragging {
@@ -143,9 +143,79 @@ class ETHScrollViewStateController: NSObject {
       
     } else if scrollView.decelerating {
       if self.state == .Ready {
-        // start loading
+        handleReadyState()
       }
     }
+  }
+
+  private func handleReadyState() {
+    self.state = .WillBeLoading
+    
+    if delegate.stateControllerShouldStartLoading(self) {
+      self.loadingView.frame = self.dataSource.stateControllerLoaderFrame()
+      
+      startUIAnimation({ [weak self] () -> Void in
+        if let weakSelf = self {
+          weakSelf.startLoading()
+        }
+        })
+      
+    } else {
+      self.state = .Normal
+    }
+  }
+
+  private func startLoading() {
+    self.state = .Loading
+    
+    self.delegate.stateControllerDidStartLoading(self, onCompletion: {[weak self] () -> Void in
+      if let weakSelf = self {
+        weakSelf.stopLoading()
+      }
+    })
+  }
+
+  private func stopLoading() {
+    self.state = .Normal
+    
+    self.stopUIAnimation({ [weak self] () -> Void in
+      if let weakSelf = self {
+        weakSelf.delegate.stateControllerDidFinishLoading(weakSelf)
+      }
+    })
+  }
+  
+  private func startUIAnimation(onCompletion: CompletionHandler) {
+    handleAnimation(startAnimation: true) { () -> Void in
+      onCompletion()
+    }
+  }
+  
+  private func stopUIAnimation(onCompletion: CompletionHandler) {
+    handleAnimation(startAnimation: false) { () -> Void in
+      onCompletion()
+    }
+  }
+  
+  private func handleAnimation(startAnimation startAnimation: Bool, onCompletion: CompletionHandler) {
+    if startAnimation {
+      self.loadingView.startAnimating()
+    } else {
+      self.loadingView.stopAnimating()
+    }
+
+    let animationDuration = startAnimation ? kInsetInsertAnimationDuration : kInsetRemoveAnimationDuration
+    UIView.animateWithDuration(animationDuration, animations: {[weak self] () -> Void in
+      if let weakSelf = self {
+        weakSelf.scrollView.contentInset = weakSelf.dataSource.stateControllerInsertLoaderInsets(startAnimation)
+      }
+    }, completion: { (finished: Bool) -> Void in
+        onCompletion()
+    })
+  }
+  
+  deinit {
+    self.scrollView?.removeObserver(self, forKeyPath: "contentOffset")
   }
   
 }
