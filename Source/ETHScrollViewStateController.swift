@@ -81,22 +81,42 @@ class ETHScrollViewStateController: NSObject {
   let kInsetInsertAnimationDuration: NSTimeInterval = 0.7
   let kInsetRemoveAnimationDuration: NSTimeInterval = 0.3
   
-  weak var dataSource: ETHScrollViewStateControllerDataSource?
-  weak var delegate: ETHScrollViewStateControllerDelegate?
+  weak var dataSource: ETHScrollViewStateControllerDataSource!
+  weak var delegate: ETHScrollViewStateControllerDelegate!
   
   private var scrollView: UIScrollView?
   private var state: ETHScrollViewStateControllerState = .Normal
   private var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
   
-  init(scrollView: UIScrollView, dataSource: ETHScrollViewStateControllerDataSource?, delegate: ETHScrollViewStateControllerDelegate?, showDefaultLoader: Bool = true) {
+  init(scrollView: UIScrollView, dataSource: ETHScrollViewStateControllerDataSource!, delegate: ETHScrollViewStateControllerDelegate!, showDefaultLoader: Bool = true) {
     super.init()
     
     self.scrollView = scrollView
     self.dataSource = dataSource
     self.delegate = delegate
     self.state = .Normal
-    self.loadingView.hidden = !showDefaultLoader
+
     self.scrollView?.addObserver(self, forKeyPath: "contentOffset", options: NSKeyValueObservingOptions.New, context: nil)
+    if showDefaultLoader {
+      addDefaultLoadView()
+    }
+  }
+  
+  private func addDefaultLoadView() {
+    self.loadingView.frame = self.dataSource.stateControllerLoaderFrame()
+    self.scrollView?.addSubview(self.loadingView)
+  }
+  
+  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    if keyPath == "contentOffset" {
+      var newOffset: CGFloat = 0
+      if dataSource.stateControllerWillObserveVerticalScrolling() {
+        newOffset = (change?[NSKeyValueChangeNewKey]?.CGPointValue?.y)!
+
+      } else {
+        newOffset = (change?[NSKeyValueChangeNewKey]?.CGPointValue?.x)!
+      }
+    }
   }
   
 }
