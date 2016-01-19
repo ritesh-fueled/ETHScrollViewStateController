@@ -66,7 +66,7 @@ extension ETHScrollViewStateControllerDelegate {
     return true
   }
 
-  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadView: UIActivityIndicatorView) {
+  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView) {
     // default imlpementation
   }
   
@@ -123,7 +123,7 @@ class ETHScrollViewStateController: NSObject {
   
   private func handleLoadingCycle(offset: CGFloat) {
     if (dataSource.stateControllerShouldInitiateLoading(offset)) {
-      self.delegate.stateControllerWillStartLoading(self, loadView: self.loadingView)
+      self.delegate.stateControllerWillStartLoading(self, loadingView: self.loadingView)
     }
     
     if scrollView.dragging {
