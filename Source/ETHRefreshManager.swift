@@ -43,18 +43,18 @@ extension ETHRefreshManager: ETHScrollViewStateControllerDataSource {
     return offset < 0
   }
   
-  func stateControllerDidReleaseToCancelLoading(offset: CGFloat) -> Bool {
-    return offset > kDefaultRefreshLoaderThreshold
-  }
-
   func stateControllerDidReleaseToStartLoading(offset: CGFloat) -> Bool {
     return offset < kDefaultRefreshLoaderThreshold
   }
   
+  func stateControllerDidReleaseToCancelLoading(offset: CGFloat) -> Bool {
+    return offset > kDefaultRefreshLoaderThreshold
+  }
+
   func stateControllerInsertLoaderInsets(startAnimation: Bool) -> UIEdgeInsets {
-    var newInset = scrollView?.contentInset
-    newInset?.top += startAnimation ? kDefaultRefreshLoaderInset : -kDefaultRefreshLoaderInset
-    return newInset!
+    var newInset = scrollView.contentInset
+    newInset.top += startAnimation ? kDefaultRefreshLoaderInset : -kDefaultRefreshLoaderInset
+    return newInset
   }
   
   func stateControllerLoaderFrame() -> CGRect {
@@ -67,6 +67,9 @@ extension ETHRefreshManager: ETHScrollViewStateControllerDelegate {
   
   func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void) {
     self.delegate.refreshManagerDidStartLoading(self, onCompletion: onCompletion)
+  }
+  
+  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView) {
   }
   
 }
