@@ -75,6 +75,20 @@ extension ETHScrollViewStateControllerDelegate {
   }
 }
 
+class ETHStateConfiguration: NSObject {
+  var thresholdInitiateLoading: CGFloat = 0
+  var loaderFrame: CGRect = CGRectZero
+  var thresholdStartLoading: CGFloat = 0
+  var showDefaultLoader = true
+  
+  init(thresholdInitiateLoading: CGFloat, loaderFrame: CGRect, thresholdStartLoading: CGFloat, showDefaultLoader: Bool = true) {
+    self.loaderFrame = loaderFrame
+    self.showDefaultLoader = showDefaultLoader
+    self.thresholdInitiateLoading = thresholdInitiateLoading
+    self.thresholdStartLoading = thresholdStartLoading
+  }
+}
+
 class ETHScrollViewStateController: NSObject {
   
   let kDefaultLoadingHeight: CGFloat = 64.0

@@ -15,7 +15,22 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self)
+
+    // make your custom loader    
+    let ptrViewFrame = CGRectMake(0, -128, 320, 128)
+    let ptrView = UIView(frame: ptrViewFrame)
+    ptrView.backgroundColor = UIColor.blackColor()
+    self.tableView.addSubview(ptrView)
+    
+    // set configuration as per requirement
+    let config = ETHStateConfiguration(
+      thresholdInitiateLoading: 0,
+      loaderFrame: ptrView.frame,
+      thresholdStartLoading: -ptrView.frame.size.height,
+      showDefaultLoader: false)
+    
+    // assign the config to refresh manager
+    self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self, stateConfig: config)
   }
   
 }
