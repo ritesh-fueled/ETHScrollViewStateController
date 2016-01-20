@@ -16,21 +16,8 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // make your custom loader    
-    let ptrViewFrame = CGRectMake(0, -128, 320, 128)
-    let ptrView = UIView(frame: ptrViewFrame)
-    ptrView.backgroundColor = UIColor.blackColor()
-    self.tableView.addSubview(ptrView)
-    
-    // set configuration as per requirement
-    let config = ETHStateConfiguration(
-      thresholdInitiateLoading: 0,
-      loaderFrame: ptrView.frame,
-      thresholdStartLoading: -ptrView.frame.size.height,
-      showDefaultLoader: false)
-    
     // assign the config to refresh manager
-    self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self, stateConfig: config)
+    self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self)
   }
   
 }
@@ -55,7 +42,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: ETHRefreshManagerDelegate {
   
-  func refreshManagerDidStartLoading(manager: ETHRefreshManager, onCompletion: () -> Void) {
+  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void) {
     let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
     dispatch_after(delayTime, dispatch_get_main_queue()) { () -> Void in
       onCompletion()

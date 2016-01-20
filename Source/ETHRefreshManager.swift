@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-protocol ETHRefreshManagerDelegate: NSObjectProtocol {
-  func refreshManagerDidStartLoading(manager: ETHRefreshManager, onCompletion: () -> Void)
+protocol ETHRefreshManagerDelegate: ETHScrollViewStateControllerDelegate {
 }
 
 class ETHRefreshManager: NSObject {
@@ -27,7 +26,7 @@ class ETHRefreshManager: NSObject {
     self.scrollView = scrollView
     self.delegate = delegate
     self.stateConfig = stateConfig
-    self.scrollViewStateController = ETHScrollViewStateController(scrollView: scrollView, dataSource: self, delegate: self, showDefaultLoader: stateConfig.showDefaultLoader)
+    self.scrollViewStateController = ETHScrollViewStateController(scrollView: scrollView, dataSource: self, delegate: delegate, showDefaultLoader: stateConfig.showDefaultLoader)
   }
   
 }
@@ -58,14 +57,6 @@ extension ETHRefreshManager: ETHScrollViewStateControllerDataSource {
   
   func stateControllerLoaderFrame() -> CGRect {
     return self.stateConfig.loaderFrame
-  }
-  
-}
-
-extension ETHRefreshManager: ETHScrollViewStateControllerDelegate {
-  
-  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void) {
-    self.delegate.refreshManagerDidStartLoading(self, onCompletion: onCompletion)
   }
   
 }
