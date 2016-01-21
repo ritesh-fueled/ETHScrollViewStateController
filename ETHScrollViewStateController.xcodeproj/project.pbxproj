@@ -16,6 +16,7 @@
 		3DB5DB061C4E55E500896BB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DB5DB051C4E55E500896BB8 /* Assets.xcassets */; };
 		3DB5DB091C4E55E500896BB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DB5DB071C4E55E500896BB8 /* LaunchScreen.storyboard */; };
 		3DBF9D041C4E58B30002B672 /* ETHScrollViewStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBF9D031C4E58B30002B672 /* ETHScrollViewStateController.swift */; };
+		3DE290381C50CFAC0082B36C /* ETHScrollViewStateController.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 3DE290371C50CFAC0082B36C /* ETHScrollViewStateController.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		3DB5DB081C4E55E500896BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DB5DB0A1C4E55E500896BB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3DBF9D031C4E58B30002B672 /* ETHScrollViewStateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETHScrollViewStateController.swift; path = Source/ETHScrollViewStateController.swift; sourceTree = SOURCE_ROOT; };
+		3DE290371C50CFAC0082B36C /* ETHScrollViewStateController.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ETHScrollViewStateController.podspec; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				3DB5DB021C4E55E500896BB8 /* Main.storyboard */,
 				3DB5DB051C4E55E500896BB8 /* Assets.xcassets */,
 				3DB5DB071C4E55E500896BB8 /* LaunchScreen.storyboard */,
+				3DE290371C50CFAC0082B36C /* ETHScrollViewStateController.podspec */,
 				3DB5DB0A1C4E55E500896BB8 /* Info.plist */,
 			);
 			path = ETHScrollViewStateController;
@@ -143,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DE290381C50CFAC0082B36C /* ETHScrollViewStateController.podspec in Resources */,
 				3DB5DB091C4E55E500896BB8 /* LaunchScreen.storyboard in Resources */,
 				3DB5DB061C4E55E500896BB8 /* Assets.xcassets in Resources */,
 				3DB5DB041C4E55E500896BB8 /* Main.storyboard in Resources */,
