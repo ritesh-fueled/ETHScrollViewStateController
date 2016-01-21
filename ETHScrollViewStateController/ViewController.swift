@@ -20,6 +20,10 @@ class ViewController: UIViewController {
     self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self)
   }
   
+  func scrollViewDidScroll(scrollView: UIScrollView) {
+    print("\(scrollView.contentOffset.y)")
+  }
+  
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -31,11 +35,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    return 104
+    return 100
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 20
+    return 2
   }
   
 }
