@@ -9,12 +9,13 @@
 import Foundation
 import UIKit
 
-protocol ETHPaginationManagerDelegate: ETHScrollViewStateControllerDelegate {
+protocol ETHPaginationManagerDelegate: NSObjectProtocol {
+  func paginationManagerDidStartLoading(controller: ETHPaginationManager, onCompletion: CompletionHandler)
 }
 
 class ETHPaginationManager: NSObject {
   
-  weak var delegate: ETHPaginationManagerDelegate!
+  weak var delegate: ETHPaginationManagerDelegate?
   var scrollView: UIScrollView!
   var scrollViewStateController: ETHScrollViewStateController!
   var stateConfig: ETHStateConfiguration!
@@ -26,7 +27,7 @@ class ETHPaginationManager: NSObject {
     self.scrollView = scrollView
     self.delegate = delegate
     self.stateConfig = stateConfig
-    self.scrollViewStateController = ETHScrollViewStateController(scrollView: scrollView, dataSource: self, delegate: delegate, showDefaultLoader: stateConfig.showDefaultLoader)
+    self.scrollViewStateController = ETHScrollViewStateController(scrollView: scrollView, dataSource: self, delegate: self, showDefaultLoader: stateConfig.showDefaultLoader)
   }
   
 }
@@ -69,6 +70,14 @@ extension ETHPaginationManager: ETHScrollViewStateControllerDataSource {
     frame.origin.y = self.scrollView.contentSize.height
     self.stateConfig.loaderFrame = frame
     return frame
+  }
+  
+}
+
+extension ETHPaginationManager: ETHScrollViewStateControllerDelegate {
+  
+  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: CompletionHandler) {
+    self.delegate?.paginationManagerDidStartLoading(self, onCompletion: onCompletion)
   }
   
 }

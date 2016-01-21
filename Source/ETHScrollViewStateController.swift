@@ -56,7 +56,7 @@ extension ETHScrollViewStateControllerDataSource {
 protocol ETHScrollViewStateControllerDelegate: NSObjectProtocol {
   func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView)
   func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool
-  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void)
+  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: CompletionHandler)
   func stateControllerDidFinishLoading(controller: ETHScrollViewStateController)
 }
 

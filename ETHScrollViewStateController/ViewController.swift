@@ -12,18 +12,16 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
   var refreshManager: ETHRefreshManager!
+  var paginatiohManager: ETHPaginationManager!
+  var count = 0
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     // assign the config to refresh manager
     self.refreshManager = ETHRefreshManager(scrollView: self.tableView, delegate: self)
+    self.paginatiohManager = ETHPaginationManager(scrollView: self.tableView, delegate: self)
   }
-  
-  func scrollViewDidScroll(scrollView: UIScrollView) {
-    print("\(scrollView.contentOffset.y)")
-  }
-  
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -39,19 +37,30 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 2
+    self.count += 10
+    return count
   }
   
 }
 
 extension ViewController: ETHRefreshManagerDelegate {
   
-  func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: () -> Void) {
+  func refreshManagerDidStartLoading(controller: ETHRefreshManager, onCompletion: CompletionHandler) {
     let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
     dispatch_after(delayTime, dispatch_get_main_queue()) { () -> Void in
       onCompletion()
     }
   }
   
+}
+
+extension ViewController: ETHPaginationManagerDelegate {
+  func paginationManagerDidStartLoading(controller: ETHPaginationManager, onCompletion: CompletionHandler) {
+    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
+    dispatch_after(delayTime, dispatch_get_main_queue()) { () -> Void in
+      self.tableView.reloadData()
+      onCompletion()
+    }
+  }
 }
 
