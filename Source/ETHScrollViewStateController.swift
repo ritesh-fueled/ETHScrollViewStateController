@@ -40,7 +40,7 @@ public protocol ETHScrollViewStateControllerDataSource: NSObjectProtocol {
   // it defines the condition when to cancel loading
   func stateControllerDidReleaseToCancelLoading(offset: CGFloat) -> Bool
   
-  // it will return the Y position of loader
+  // it will return the loader frame
   func stateControllerLoaderFrame() -> CGRect
   
   // it will return the loader inset
