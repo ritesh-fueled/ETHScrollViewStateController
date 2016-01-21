@@ -20,7 +20,7 @@ class ETHPaginationManager: NSObject {
   var scrollViewStateController: ETHScrollViewStateController!
   var stateConfig: ETHStateConfiguration!
   
-  init(scrollView: UIScrollView, delegate: ETHPaginationManagerDelegate, stateConfig: ETHStateConfiguration = ETHStateConfiguration(thresholdInitiateLoading: 0, loaderFrame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 64), thresholdStartLoading: -64)) {
+  init(scrollView: UIScrollView, delegate: ETHPaginationManagerDelegate, stateConfig: ETHStateConfiguration = ETHStateConfiguration(thresholdInitiateLoading: 0, loaderFrame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 64), thresholdStartLoading: 64)) {
     
     super.init()
     
@@ -28,6 +28,12 @@ class ETHPaginationManager: NSObject {
     self.delegate = delegate
     self.stateConfig = stateConfig
     self.scrollViewStateController = ETHScrollViewStateController(scrollView: scrollView, dataSource: self, delegate: self, showDefaultLoader: stateConfig.showDefaultLoader)
+  }
+  
+  private func calculateDelta(offset: CGFloat) -> CGFloat {
+    let calculatedOffset = max(0, scrollView.contentSize.height - scrollView.frame.size.height)
+    let delta = offset - calculatedOffset
+    return delta
   }
   
 }
@@ -39,23 +45,17 @@ extension ETHPaginationManager: ETHScrollViewStateControllerDataSource {
   }
   
   func stateControllerShouldInitiateLoading(offset: CGFloat) -> Bool {
-    let calculatedOffset = max(0, scrollView.contentSize.height - scrollView.frame.size.height)
-    let delta = offset - calculatedOffset
-    let shouldStart = delta > self.stateConfig.thresholdInitiateLoading
+    let shouldStart = self.calculateDelta(offset) > self.stateConfig.thresholdInitiateLoading
     return shouldStart
   }
   
   func stateControllerDidReleaseToStartLoading(offset: CGFloat) -> Bool {
-    let calculatedOffset = max(0, scrollView.contentSize.height - scrollView.frame.size.height)
-    let delta = offset - calculatedOffset
-    let shouldStart = delta > self.stateConfig.thresholdStartLoading
+    let shouldStart = self.calculateDelta(offset) > self.stateConfig.thresholdStartLoading
     return shouldStart
   }
   
   func stateControllerDidReleaseToCancelLoading(offset: CGFloat) -> Bool {
-    let calculatedOffset = max(0, scrollView.contentSize.height - scrollView.frame.size.height)
-    let delta = offset - calculatedOffset
-    let shouldStart = delta < self.stateConfig.thresholdStartLoading
+    let shouldStart = self.calculateDelta(offset) < self.stateConfig.thresholdStartLoading
     return shouldStart
   }
   
@@ -71,7 +71,7 @@ extension ETHPaginationManager: ETHScrollViewStateControllerDataSource {
     self.stateConfig.loaderFrame = frame
     return frame
   }
-  
+ 
 }
 
 extension ETHPaginationManager: ETHScrollViewStateControllerDelegate {
