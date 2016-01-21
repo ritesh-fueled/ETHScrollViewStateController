@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3D470EBD1C4E732C005A7F57 /* ETHRefreshManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D470EBC1C4E732C005A7F57 /* ETHRefreshManager.swift */; };
 		3D812E6E1C4FB33D00197675 /* ETHPaginationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D812E6D1C4FB33D00197675 /* ETHPaginationManager.swift */; };
+		3D812E701C50C4CC00197675 /* ETHHorizontalPaginationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D812E6F1C50C4CC00197675 /* ETHHorizontalPaginationManager.swift */; };
 		3DB5DAFF1C4E55E500896BB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB5DAFE1C4E55E500896BB8 /* AppDelegate.swift */; };
 		3DB5DB011C4E55E500896BB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB5DB001C4E55E500896BB8 /* ViewController.swift */; };
 		3DB5DB041C4E55E500896BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DB5DB021C4E55E500896BB8 /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		3D470EBC1C4E732C005A7F57 /* ETHRefreshManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETHRefreshManager.swift; path = Source/ETHRefreshManager.swift; sourceTree = SOURCE_ROOT; };
 		3D812E6D1C4FB33D00197675 /* ETHPaginationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETHPaginationManager.swift; path = Source/ETHPaginationManager.swift; sourceTree = SOURCE_ROOT; };
+		3D812E6F1C50C4CC00197675 /* ETHHorizontalPaginationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETHHorizontalPaginationManager.swift; path = Source/ETHHorizontalPaginationManager.swift; sourceTree = SOURCE_ROOT; };
 		3DB5DAFB1C4E55E500896BB8 /* ETHScrollViewStateController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ETHScrollViewStateController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DB5DAFE1C4E55E500896BB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DB5DB001C4E55E500896BB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 			children = (
 				3D470EBC1C4E732C005A7F57 /* ETHRefreshManager.swift */,
 				3D812E6D1C4FB33D00197675 /* ETHPaginationManager.swift */,
+				3D812E6F1C50C4CC00197675 /* ETHHorizontalPaginationManager.swift */,
 				3DBF9D031C4E58B30002B672 /* ETHScrollViewStateController.swift */,
 			);
 			name = Source;
@@ -156,6 +159,7 @@
 				3DBF9D041C4E58B30002B672 /* ETHScrollViewStateController.swift in Sources */,
 				3D812E6E1C4FB33D00197675 /* ETHPaginationManager.swift in Sources */,
 				3D470EBD1C4E732C005A7F57 /* ETHRefreshManager.swift in Sources */,
+				3D812E701C50C4CC00197675 /* ETHHorizontalPaginationManager.swift in Sources */,
 				3DB5DB011C4E55E500896BB8 /* ViewController.swift in Sources */,
 				3DB5DAFF1C4E55E500896BB8 /* AppDelegate.swift in Sources */,
 			);

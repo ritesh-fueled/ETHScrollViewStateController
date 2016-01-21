@@ -20,7 +20,7 @@ class ETHRefreshManager: NSObject {
   var scrollViewStateController: ETHScrollViewStateController!
   var stateConfig: ETHStateConfiguration!
   
-  init(scrollView: UIScrollView, delegate: ETHRefreshManagerDelegate, stateConfig: ETHStateConfiguration = ETHStateConfiguration(thresholdInitiateLoading: 0, loaderFrame: CGRectMake(0, -64, UIScreen.mainScreen().bounds.size.width, 64), thresholdStartLoading: -64)) {
+  init(scrollView: UIScrollView, delegate: ETHRefreshManagerDelegate, stateConfig: ETHStateConfiguration = ETHStateConfiguration(thresholdInitiateLoading: 0, loaderFrame: CGRectMake(0, -kDefaultLoaderHeight, UIScreen.mainScreen().bounds.size.width, kDefaultLoaderHeight), thresholdStartLoading: -kDefaultLoaderHeight)) {
 
     super.init()
     
@@ -33,10 +33,6 @@ class ETHRefreshManager: NSObject {
 }
 
 extension ETHRefreshManager: ETHScrollViewStateControllerDataSource {
-  
-  func stateControllerWillObserveVerticalScrolling() -> Bool {
-    return true
-  }
   
   func stateControllerShouldInitiateLoading(offset: CGFloat) -> Bool {
     return offset < self.stateConfig.thresholdInitiateLoading

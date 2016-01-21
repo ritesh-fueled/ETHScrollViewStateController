@@ -22,6 +22,8 @@ enum ETHScrollViewStateControllerState: Int {
   case Loading        // when user has started loading
 }
 
+let kDefaultLoaderHeight: CGFloat = 64
+
 typealias CompletionHandler = () -> Void
 
 protocol ETHScrollViewStateControllerDataSource: NSObjectProtocol {
@@ -77,8 +79,8 @@ extension ETHScrollViewStateControllerDelegate {
 
 class ETHStateConfiguration: NSObject {
   var thresholdInitiateLoading: CGFloat = 0
-  var loaderFrame: CGRect = CGRectZero
   var thresholdStartLoading: CGFloat = 0
+  var loaderFrame: CGRect = CGRectZero
   var showDefaultLoader = true
   
   init(thresholdInitiateLoading: CGFloat, loaderFrame: CGRect, thresholdStartLoading: CGFloat, showDefaultLoader: Bool = true) {
@@ -217,7 +219,7 @@ class ETHScrollViewStateController: NSObject {
       dispatch_async(dispatch_get_main_queue()) { () -> Void in
         let oldContentOffset = self.scrollView.contentOffset
         self.scrollView.contentInset = self.dataSource.stateControllerInsertLoaderInsets(startAnimation)
-        self.scrollView.contentOffset = oldContentOffset
+        self.scrollView.contentOffset = oldContentOffset /* this has been done to make the animation smoother as just animating the content inset has little glitch */
         onCompletion()
       }
 
