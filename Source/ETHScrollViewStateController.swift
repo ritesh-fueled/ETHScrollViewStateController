@@ -1,3 +1,4 @@
+
 //
 //  ETHScrollViewStateController.swift
 //  ETHScrollViewStateController
@@ -24,9 +25,9 @@ enum ETHScrollViewStateControllerState: Int {
 
 let kDefaultLoaderHeight: CGFloat = 64
 
-typealias CompletionHandler = () -> Void
+public typealias CompletionHandler = () -> Void
 
-protocol ETHScrollViewStateControllerDataSource: NSObjectProtocol {
+public protocol ETHScrollViewStateControllerDataSource: NSObjectProtocol {
   // it defines the condition whether to use y or x point for content offset
   func stateControllerWillObserveVerticalScrolling() -> Bool
   
@@ -48,14 +49,14 @@ protocol ETHScrollViewStateControllerDataSource: NSObjectProtocol {
 
 extension ETHScrollViewStateControllerDataSource {
   
-  func stateControllerWillObserveVerticalScrolling() -> Bool {
+  public func stateControllerWillObserveVerticalScrolling() -> Bool {
     // default implementation
     return true
   }
   
 }
 
-protocol ETHScrollViewStateControllerDelegate: NSObjectProtocol {
+public protocol ETHScrollViewStateControllerDelegate: NSObjectProtocol {
   func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView)
   func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool
   func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: CompletionHandler)
@@ -63,21 +64,21 @@ protocol ETHScrollViewStateControllerDelegate: NSObjectProtocol {
 }
 
 extension ETHScrollViewStateControllerDelegate {
-  func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool {
+  public func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool {
     // default implementation
     return true
   }
 
-  func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView) {
+  public func stateControllerWillStartLoading(controller: ETHScrollViewStateController, loadingView: UIActivityIndicatorView) {
     // default imlpementation
   }
   
-  func stateControllerDidFinishLoading(controller: ETHScrollViewStateController) {
+  public func stateControllerDidFinishLoading(controller: ETHScrollViewStateController) {
     // default imlpementation
   }
 }
 
-class ETHStateConfiguration: NSObject {
+public class ETHStateConfiguration: NSObject {
   var thresholdInitiateLoading: CGFloat = 0
   var thresholdStartLoading: CGFloat = 0
   var loaderFrame: CGRect = CGRectZero
@@ -91,7 +92,7 @@ class ETHStateConfiguration: NSObject {
   }
 }
 
-class ETHScrollViewStateController: NSObject {
+public class ETHScrollViewStateController: NSObject {
   
   let kDefaultLoadingHeight: CGFloat = 64.0
   let kInsetInsertAnimationDuration: NSTimeInterval = 0.7
@@ -104,7 +105,7 @@ class ETHScrollViewStateController: NSObject {
   private var state: ETHScrollViewStateControllerState = .Normal
   private var loadingView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
   
-  init(scrollView: UIScrollView, dataSource: ETHScrollViewStateControllerDataSource!, delegate: ETHScrollViewStateControllerDelegate!, showDefaultLoader: Bool = true) {
+  public init(scrollView: UIScrollView?, dataSource: ETHScrollViewStateControllerDataSource?, delegate: ETHScrollViewStateControllerDelegate?, showDefaultLoader: Bool = true) {
     super.init()
     
     self.scrollView = scrollView
@@ -118,12 +119,16 @@ class ETHScrollViewStateController: NSObject {
     }
   }
   
+  convenience override init() {
+    self.init(scrollView: nil, dataSource: nil, delegate: nil)
+  }
+  
   private func addDefaultLoadView() {
     self.loadingView.frame = self.dataSource.stateControllerLoaderFrame()
     self.scrollView.addSubview(self.loadingView)
   }
   
-  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+  override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
     if keyPath == "contentOffset" {
       var newOffset: CGFloat = 0
       if dataSource.stateControllerWillObserveVerticalScrolling() {
