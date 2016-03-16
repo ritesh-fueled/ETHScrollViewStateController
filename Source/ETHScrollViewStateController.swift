@@ -142,6 +142,16 @@ public class ETHScrollViewStateController: NSObject {
     }
   }
   
+  func updateActivityIndicatorStyle(newStyle: UIActivityIndicatorViewStyle) {
+    self.loadingView.removeFromSuperview();
+    self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: newStyle)
+    addDefaultLoadView()
+  }
+  
+  func updateActivityIndicatorColor(color: UIColor) {
+    self.loadingView.color = color
+  }
+  
   private func handleLoadingCycle(offset: CGFloat) {
     if (self.dataSource.stateControllerShouldInitiateLoading(offset)) {
       self.delegate.stateControllerWillStartLoading(self, loadingView: self.loadingView)

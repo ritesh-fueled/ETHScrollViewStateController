@@ -34,6 +34,14 @@ public class ETHRefreshManager: NSObject {
     self.init(scrollView: nil, delegate: nil)
   }
   
+  public func updateActivityIndicatorStyle(newStyle: UIActivityIndicatorViewStyle) {
+    self.scrollViewStateController.updateActivityIndicatorStyle(newStyle)
+  }
+  
+  public func updateActivityIndicatorColor(color: UIColor) {
+    self.scrollViewStateController.updateActivityIndicatorColor(color)
+  }
+  
 }
 
 extension ETHRefreshManager: ETHScrollViewStateControllerDataSource {

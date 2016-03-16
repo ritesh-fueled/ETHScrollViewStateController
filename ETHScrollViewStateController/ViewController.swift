@@ -21,7 +21,12 @@ class ViewController: UIViewController {
     super.viewDidLoad()
 
     self.refreshManager = ETHRefreshManager(scrollView: self.listView, delegate: self)
+    self.refreshManager.updateActivityIndicatorStyle(.WhiteLarge)
+    self.refreshManager.updateActivityIndicatorColor(UIColor.blueColor())
+
     self.paginatioManager = ETHPaginationManager(scrollView: self.listView, delegate: self)
+    self.paginatioManager.updateActivityIndicatorColor(UIColor.redColor())
+
     self.horizontalPaginationManager = ETHHorizontalPaginationManager(scrollView: self.listView, delegate: self)
   }
 }
