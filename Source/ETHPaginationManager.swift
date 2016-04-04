@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 public protocol ETHPaginationManagerDelegate: NSObjectProtocol {
-  func paginationManagerDidStartLoading(controller: ETHPaginationManager, onCompletion: CompletionHandler)
+	func paginationManagerShouldStartLoading(controller: ETHPaginationManager) -> Bool
+	func paginationManagerDidStartLoading(controller: ETHPaginationManager, onCompletion: CompletionHandler)
 }
 
 public class ETHPaginationManager: NSObject {
@@ -87,5 +88,9 @@ extension ETHPaginationManager: ETHScrollViewStateControllerDelegate {
   public func stateControllerDidStartLoading(controller: ETHScrollViewStateController, onCompletion: CompletionHandler) {
     self.delegate?.paginationManagerDidStartLoading(self, onCompletion: onCompletion)
   }
-  
+	
+	public func stateControllerShouldStartLoading(controller: ETHScrollViewStateController) -> Bool {
+		return self.delegate?.paginationManagerShouldStartLoading(self) ?? true
+	}
+	
 }

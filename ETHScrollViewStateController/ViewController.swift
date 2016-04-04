@@ -49,6 +49,10 @@ extension ViewController: ETHPaginationManagerDelegate {
       onCompletion()
     }
   }
+	
+	func paginationManagerShouldStartLoading(controller: ETHPaginationManager) -> Bool {
+		return true
+	}
 }
 
 extension ViewController: ETHHorizontalPaginationManagerDelegate {
