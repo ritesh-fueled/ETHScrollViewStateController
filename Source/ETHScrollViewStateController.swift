@@ -184,13 +184,14 @@ public class ETHScrollViewStateController: NSObject {
     
     if self.delegate.stateControllerShouldStartLoading(self) {
       self.loadingView.frame = self.dataSource.stateControllerLoaderFrame()
-      
-      startUIAnimation({ [weak self] () -> Void in
-        if let weakSelf = self {
-          weakSelf.startLoading()
-        }
-      })
-      
+			dispatch_async(dispatch_get_main_queue()) { () -> Void in
+				self.startUIAnimation({ [weak self] () -> Void in
+					if let weakSelf = self {
+						weakSelf.startLoading()
+					}
+					})
+			}
+			
     } else {
       self.state = .Normal
     }
@@ -208,14 +209,15 @@ public class ETHScrollViewStateController: NSObject {
 
   private func stopLoading() {
     self.state = .Normal
-    
-    self.stopUIAnimation({ [weak self] () -> Void in
-      if let weakSelf = self {
-        weakSelf.delegate.stateControllerDidFinishLoading(weakSelf)
-      }
+		dispatch_async(dispatch_get_main_queue()) { () -> Void in
+			self.stopUIAnimation({ [weak self] () -> Void in
+				if let weakSelf = self {
+					weakSelf.delegate.stateControllerDidFinishLoading(weakSelf)
+				}
     })
+		}
   }
-  
+	
   private func startUIAnimation(onCompletion: CompletionHandler) {
     handleAnimation(startAnimation: true) { () -> Void in
       onCompletion()
